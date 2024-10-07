@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, redirect, useNavigate, useParams } from "react-router-dom";
 
 import Modal from "../UI/Modal.jsx";
 import EventForm from "./EventForm.jsx";
@@ -97,3 +97,23 @@ export default function EditEvent() {
 
   return <Modal onClose={handleClose}>{content}</Modal>;
 }
+
+// not used, as I prefer the approach with useQuery 
+export const loader = ({ params }) => {
+  // queryClient.fetchQuery({
+  //   queryKey: ["event", "details", { id: params.id }],
+  //   queryFn: ({ signal }) => {
+  //     return fetchEvent({ id: params.id, signal });
+  //   },
+  // });
+};
+
+// not used, as I prefer the approach with useMutation 
+export const action = async ({ request, params }) => {
+  const formData = await request.formData();
+  const updatedEventData = Object.fromEntries(formData);
+
+  await updateEvent({ id: params.id, event: updatedEventData });
+  await queryClient.invalidateQueries(["events"]);
+  return redirect("../");
+};
