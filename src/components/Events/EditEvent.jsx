@@ -100,12 +100,12 @@ export default function EditEvent() {
 
 // not used, as I prefer the approach with useQuery 
 export const loader = ({ params }) => {
-  // queryClient.fetchQuery({
-  //   queryKey: ["event", "details", { id: params.id }],
-  //   queryFn: ({ signal }) => {
-  //     return fetchEvent({ id: params.id, signal });
-  //   },
-  // });
+  queryClient.fetchQuery({
+    queryKey: ["event", "details", { id: params.id }],
+    queryFn: ({ signal }) => {
+      return fetchEvent({ id: params.id, signal });
+    },
+  });
 };
 
 // not used, as I prefer the approach with useMutation 
